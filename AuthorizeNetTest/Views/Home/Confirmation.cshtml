@@ -1,0 +1,57 @@
+﻿@model AuthorizeNetTest.Models.ViewModels.ConfirmationViewModel
+
+@{
+    ViewBag.Title = "Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row toppad15">
+
+        <div class="col-md-4"></div>
+        <div class="col-xs-12 col-md-4">
+            
+            <div class="panel panel-default credit-card-box">
+
+                @*<div class="panel-heading display-table">
+                    <div class="row display-tr">
+                        <h3 class="panel-title display-td">Confirmation</h3>
+                    </div>
+                </div>*@
+
+                <div class="panel-heading text-center">
+                    <div class="row">
+                        <h3 class="panel-title">Confirmation</h3>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="cardNumber">AUTH CODE</label>
+                                @Html.ValueFor(m => m.AuthCode)
+                            </div>
+                        </div>
+                        <div class="col-xs-6"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="@Url.Action("Index")" 
+                               class="subscribe btn btn-info btn-lg btn-block">
+                                Make Another Payment
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+</div>

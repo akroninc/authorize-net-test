@@ -1,0 +1,253 @@
+﻿@model AuthorizeNetTest.Models.ViewModels.PaymentViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.HiddenFor(m => m.PaymentResult.IsSuccessful, new { id = "payment-is-successful"})
+@Html.HiddenFor(m => m.PaymentResult.ResultCode, new { id = "payment-result-code" })
+@Html.HiddenFor(m => m.PaymentResult.AuthCode, new { id = "payment-auth-code" })
+@Html.HiddenFor(m => m.PaymentResult.ErrorCode, new { id = "payment-error-code" })
+@Html.HiddenFor(m => m.PaymentResult.ErrorMessage, new { id = "payment-error-message" })
+
+<div class="container">
+    <div class="row toppad15">
+
+        <div class="col-md-4"></div>
+        <!-- You can make it whatever width you want. I'm making it full width
+             on <= small devices and 4/12 page width on >= medium devices -->
+        <div class="col-xs-12 col-md-4">
+
+
+            <!-- CREDIT CARD FORM STARTS HERE -->
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table">
+                    <div class="row display-tr">
+                        <h3 class="panel-title display-td">Payment Details</h3>
+                        <div class="display-td">
+                            <img class="img-responsive pull-right" src="@Url.Content("~/Content/images/accepted.png")">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+
+                    @using (Html.BeginForm("Payment", "Home", FormMethod.Post, new { id = "payment-form" }))
+                    {
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group form-inline">
+                                    <label for="cents">AMOUNT: </label>
+                                    $ 1.
+                                    @Html.DropDownListFor(m => m.Payment.AmountCents,
+                                                          Model.CentsList,
+                                                          new
+                                                          {
+                                                              id = "cents",
+                                                              @class = "form-control",
+                                                              autocomplete = "state",
+                                                              required = "required"
+                                                          })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4><strong>Billing</strong></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="cardNumber">FIRST NAME</label>
+                                    @Html.TextBoxFor(m => m.Billing.FirstName,
+                                                         new
+                                                         {
+                                                             id = "firstName",
+                                                             @class = "form-control",
+                                                             placeholder = "First Name",
+                                                             autocomplete = "cc-given-name",
+                                                             required = "required",
+                                                             autofocus = "autofocus"
+                                                         })
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label for="cardNumber">LAST NAME</label>
+                                    @Html.TextBoxFor(m => m.Billing.LastName,
+                                                         new
+                                                         {
+                                                             id = "lastName",
+                                                             @class = "form-control",
+                                                             placeholder = "Last Name",
+                                                             autocomplete = "cc-family-name",
+                                                             required = "required"
+                                                         })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="cardNumber">ADDRESS</label>
+                                    @Html.TextBoxFor(m => m.Billing.Address,
+                                                         new
+                                                         {
+                                                             id = "zipCode",
+                                                             @class = "form-control",
+                                                             placeholder = "Address",
+                                                             autocomplete = "address",
+                                                             required = "required"
+                                                         })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="form-group">
+                                    @*<label for="cardNumber">CITY</label>*@
+                                    @Html.TextBoxFor(m => m.Billing.City,
+                                                         new
+                                                         {
+                                                             id = "city",
+                                                             @class = "form-control",
+                                                             placeholder = "City",
+                                                             autocomplete = "postal-code",
+                                                             required = "required"
+                                                         })
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    @*<label for="cardNumber">STATE</label>*@
+                                    @Html.DropDownListFor(m => m.Billing.State,
+                                                          Model.StateList,
+                                                          string.Empty,
+                                                          new
+                                                          {
+                                                              id = "state",
+                                                              @class = "form-control",
+                                                              autocomplete = "state",
+                                                              required = "required"
+                                                          })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    @*<label for="cardNumber">ZIP</label>*@
+                                    @Html.TextBoxFor(m => m.Billing.ZipCode,
+                                                         new
+                                                         {
+                                                             id = "zipCode",
+                                                             @class = "form-control",
+                                                             placeholder = "Zip",
+                                                             autocomplete = "postal-code",
+                                                             required = "required"
+                                                         })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h4><strong>Card Info</strong></h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="cardNumber">CARD NUMBER</label>
+                                    <div class="input-group">
+
+                                        @Html.TextBoxFor(m => m.Payment.CreditCardNumber,
+                                                         new
+                                                         {
+                                                             id = "cardNumber",
+                                                             type = "tel",
+                                                             @class ="form-control",
+                                                             placeholder="Valid Card Number",
+                                                             autocomplete="cc-number",
+                                                             required = "required"
+                                                         })
+                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-7 col-md-7">
+                                <div class="form-group">
+                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+
+                                    @Html.TextBoxFor(m => m.Payment.ExpiryDate,
+                                                         new
+                                                         {
+                                                             id = "cardExpiry",
+                                                             type = "tel",
+                                                             @class = "form-control",
+                                                             placeholder = "MM / YY",
+                                                             autocomplete = "cc-exp",
+                                                             required = "required"
+                                                         })
+                                                        @Html.HiddenFor(m => m.Payment.ExpiryMonth, new { id = "cardExpiryMonth" })
+                                                        @Html.HiddenFor(m => m.Payment.ExpiryYear, new { id = "cardExpiryYear" })
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                    <label for="cardCVC">CV CODE</label>
+
+                                    @Html.TextBoxFor(m => m.Payment.CVC,
+                                                         new
+                                                         {
+                                                             id = "cardCVC",
+                                                             type = "tel",
+                                                             @class = "form-control",
+                                                             placeholder = "CVC",
+                                                             autocomplete = "cc-csc",
+                                                             required = "required"
+                                                         })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="subscribe btn btn-success btn-lg btn-block"
+                                        type="submit">Make Payment</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="payment-errors">
+
+                                    @Html.ValidationSummary()
+
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    @*</form>*@
+                </div>
+            </div>
+            <!-- CREDIT CARD FORM ENDS HERE -->
+
+
+        </div>
+
+
+        <div class="col-md-4"></div>
+
+    </div>
+</div>
+
